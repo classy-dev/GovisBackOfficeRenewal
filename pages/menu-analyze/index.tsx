@@ -76,17 +76,17 @@ const StoreAnalyze = () => {
         hideUnderline
         descBottom={[
           {
-            label: '기준일 제품 총 판매 수',
+            label: '기준일 메뉴 총 판매 수',
             value: `${data?.total.total_base_sales_count.toLocaleString()}`,
           },
           {
-            label: '비교일 제품 총 판매 수',
+            label: '비교일 메뉴 총 판매 수',
             value: `${data?.total.total_comparison_sales_count.toLocaleString()}`,
           },
         ]}
       />
       <AreaBox
-        title="매장별 제품 판매 현황"
+        title="매장별 메뉴 판매 현황"
         className="noPadding"
         addFunc={
           <SelectStoreType>
@@ -115,7 +115,7 @@ const StoreAnalyze = () => {
         )}
       </AreaBox>
       <AreaBox
-        title="판매 제품 수"
+        title="판매 메뉴 수"
         className="underline tab"
         css={css`
           margin-top: 3.2rem;
@@ -148,7 +148,7 @@ const StoreAnalyze = () => {
             <ExportButton
               params={params}
               endPoint="/analytics/product/sales/export/order_raw_data"
-              title="판매 제품 수"
+              title="판매 메뉴 수"
             />
           </div>
         }

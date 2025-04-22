@@ -66,7 +66,7 @@ const SalesProductTable = ({
           <tr>
             <td colSpan={6}>
               <Empty Icon={<IoAlertCircleOutline size={42} />}>
-                해당 조회 조건의 제품 판매 수 데이터가 없습니다.
+                해당 조회 조건의 판매 수 데이터가 없습니다.
               </Empty>
             </td>
           </tr>
