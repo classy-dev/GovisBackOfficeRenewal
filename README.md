@@ -4,6 +4,7 @@ GOVIS는 고피자(GOPIZZA) 본사 임직원들을 위한 매출 분석, 제품/
 
 ![GOVIS 대시보드](public/images/mock/thumb.png)
 
+
 ## 프로젝트 개요
 
 - **명칭**: GOVIS
@@ -17,6 +18,10 @@ GOVIS는 고피자(GOPIZZA) 본사 임직원들을 위한 매출 분석, 제품/
   - 매출 분석
   - 매장 판매 데이터 관리
   - 각종 리포트 생성
+
+## GOVIS 영상 설명
+
+[포트폴리오 살펴 보기](https://youtu.be/yWx_fcaZyY4)
 
 ## 설치 방법
 
@@ -49,6 +54,9 @@ yarn dev
 1. 이메일과 비밀번호로 로그인합니다.
 2. 대시보드에서 전반적인 정보를 확인합니다.
 3. 좌측 네비게이션 메뉴를 통해 다양한 기능에 접근할 수 있습니다.
+
+
+
 
 ## 주요 기능
 
@@ -194,3 +202,5 @@ GovisBackOfficeRenewal/
 - **함수 네이밍**: camelCase
 - **상수**: UPPER_SNAKE_CASE
 - **파일 구조**: 기능별 구분
+
+
