@@ -2,7 +2,7 @@
 
 GOVIS는 고피자(GOPIZZA) 본사 임직원들을 위한 매출 분석, 제품/메뉴 및 매장 관리 등을 내부 서비스 백오피스 시스템입니다. 이 프로젝트는 기존 백오피스 시스템을 현대적인 기술 스택과 UI/UX로 리뉴얼한 버전입니다.
 
-![GOVIS 대시보드](public/images/common/logo_govis_login.png)
+<!-- ![GOVIS 대시보드](public/images/common/logo_govis_login.png) -->
 
 ## 프로젝트 개요
 
