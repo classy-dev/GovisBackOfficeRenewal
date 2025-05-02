@@ -195,7 +195,7 @@ GovisBackOfficeRenewal/
 
 이 프로젝트는 다음 코딩 규칙을 따릅니다:
 
-- **ESLint**: Airbnb 스타일 가이드 기반 규칙
+- **ESLint**: GOPIZZA 스타일 가이드 기반 규칙
 - **Prettier**: 일관된 코드 포맷팅
 - **TypeScript**: 엄격한 타입 체킹
 - **컴포넌트 네이밍**: PascalCase
