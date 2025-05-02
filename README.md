@@ -142,7 +142,7 @@ yarn dev
 - **데이터 페칭**: React Query
 - **폼 관리**: React Hook Form
 - **차트 및 시각화**: Recharts, Chart.js
-- **테이블 관리**: Tanstack React Table
+
 
 ### 백엔드 연동
 - **API 통신**: Axios
