@@ -1,38 +1,201 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GOVIS - 백오피스 리뉴얼
 
-## Getting Started
+GOVIS는 고피자(GOPIZZA) 본사 임직원들을 위한 내부 서비스 백오피스 시스템입니다. 이 프로젝트는 기존 백오피스 시스템을 현대적인 기술 스택과 UI/UX로 리뉴얼한 버전입니다.
 
-First, run the development server:
+![GOVIS 대시보드](public/images/common/logo_govis_login.png)
 
+## 프로젝트 개요
+
+- **명칭**: GOVIS
+- **유형**: 백오피스 웹 애플리케이션
+- **목적**: 고피자 본사 임직원의 업무 효율화 및 데이터 분석 지원
+- **대상 사용자**: 고피자 본사 임직원
+- **주요 기능**: 
+  - 대시보드
+  - AI 기반 분석 및 모니터링 (AISTT)
+  - 제품 및 메뉴 관리
+  - 매출 분석
+  - 매장 판매 데이터 관리
+  - 각종 리포트 생성
+
+## 설치 방법
+
+### 필수 요구사항
+- Node.js 14.0.0 이상
+- Yarn 패키지 매니저
+
+### 설치 과정
+
+1. 저장소를 클론합니다:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+git clone [저장소 URL]
+cd GovisBackOfficeRenewal
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 의존성을 설치합니다:
+```bash
+yarn install
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+3. 개발 서버를 실행합니다:
+```bash
+yarn dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+4. 브라우저에서 [http://localhost:3000](http://localhost:3000)으로 접속하여 애플리케이션을 확인합니다.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 사용 방법
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+1. 이메일과 비밀번호로 로그인합니다.
+2. 대시보드에서 전반적인 정보를 확인합니다.
+3. 좌측 네비게이션 메뉴를 통해 다양한 기능에 접근할 수 있습니다.
 
-## Learn More
+## 주요 기능
 
-To learn more about Next.js, take a look at the following resources:
+### 본사 운영 관리
+- **대시보드**: 주요 지표와 통계를 시각화하여 종합적인 정보 제공
+- **매출 분석**:
+  - 매출 종합현황: 전체 매출 지표 통합 조회
+  - 시간대별 통계: 시간대별 매출 패턴 분석
+  - 일별/월별 매출: 기간별 매출 추이 분석
+  - 매장별 매출: 개별 매장 성과 분석
+- **제품/메뉴 관리**:
+  - 제품 관리: 제품 정보 등록 및 관리
+  - 원재료 관리: 원재료 정보 및 재고 관리
+  - 레시피 관리: 제품 레시피 관리 및 원가 계산
+  - 메뉴 관리: 매장 메뉴 구성 및 설정
+- **제품/메뉴 분석**:
+  - 제품 분석 및 통계: 제품별 판매 데이터와 성과 분석
+  - 메뉴 분석 및 통계: 메뉴 구성 최적화를 위한 통계 분석
+- **매장 관리**:
+  - 매장 기본 정보 관리
+  - 매출 채널 관리: 다양한 매출 경로 설정 및 관리
+  - 매장 매출 수기입력: 매장 매출 데이터 수동 입력 기능
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### AI 스마트 토핑 테이블 (AISTT)
+- **현황**: AISTT 시스템 전반적인 상태 및 통계
+- **매장 모니터링**: 매장별 AISTT 실시간 모니터링
+- **제품 분석**: AI 기반 제품 품질 및 생산성 분석
+- **AISTT 관리**: AISTT 장비 관리 및 설정
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### G-FQS (Gopizza Food Quality System)
+- **대시보드**: 식품 품질 관련 핵심 지표 시각화
+- **제품 분석**: 제품 품질에 대한 상세 분석
+- **데이터 검수**: 품질 데이터 검증 및 관리
 
-## Deploy on Vercel
+### IoT 관리
+- **GoAir 관리 매장**: 공기질 관리 시스템 적용 매장 관리
+- **GoAir 기기 관리**: IoT 기기 설정 및 관리
+- **Goven 관리**: 스마트 오븐 시스템 관리
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 매장 평가 시스템
+- **대시보드**: 매장 평가 핵심 지표 요약
+- **매장QC 관리**: 매장별 품질 관리 상태 확인
+- **체크리스트 관리**: 평가 항목 관리 및 설정
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### 프랜차이즈 지원
+- **게시판 관리**:
+  - 공지사항 관리
+  - 레시피 정복: 레시피 관련 정보 공유
+  - 뉴스레터: 기업 소식 게시
+  - 우수사례 공유: "우리가 불편해야 고객이 만족한다"
+  - 상품 피드백: 제품 관련 피드백 수집 및 관리
+- **이벤트 관리**:
+  - 카카오톡 프로모션: 디지털 마케팅 관리
+  - 캘린더: 일정 관리
+- **문의 관리**:
+  - 건의 및 문의: 가맹점 의견 수렴
+  - 인테리어 AS: 인테리어 관련 지원 요청 관리
+  - 반품 문의: 제품 반품 처리 관리
+
+### 홈페이지 관리
+- **배너 및 프로모션 관리**:
+  - 메인 배너 관리
+  - 창업 배너 관리
+  - 프로모션 관리
+- **영상 관리**:
+  - 유튜브 영상 관리
+  - 광고영상 관리
+- **언론보도 관리**: 언론보도 자료 관리
+- **창업 문의 관리**: 예비 창업자 문의 접수 및 관리
+
+### 시스템 관리
+- **사용자 관리**:
+  - 사용자 등록 및 권한 설정
+  - 권한 그룹 관리
+- **알람 관리**:
+  - 본사알람 관리
+  - 매장알람 관리
+- **자료 다운로드**: 각종 보고서 및 데이터 추출
+
+## 기술 스택
+
+### 프론트엔드
+- **프레임워크**: Next.js (React)
+- **언어**: TypeScript
+- **상태 관리**: MobX
+- **스타일링**: Emotion (CSS-in-JS)
+- **UI 컴포넌트**: 아토믹 디자인 시스템 (Atom, Molecule, Template)
+- **데이터 페칭**: React Query
+- **폼 관리**: React Hook Form
+- **차트 및 시각화**: Recharts, Chart.js
+- **테이블 관리**: Tanstack React Table
+
+### 백엔드 연동
+- **API 통신**: Axios
+- **인증 관리**: JWT, Cookies
+- **데이터 캐싱**: React Query
+
+### 개발 도구
+- **컴포넌트 개발**: Storybook
+- **코드 품질**: ESLint, Prettier
+- **Git 훅**: Husky, lint-staged
+
+## 프로젝트 아키텍처
+
+GOVIS는 아토믹 디자인 패턴을 기반으로 컴포넌트를 구성하고, MobX를 이용한 상태 관리와 React Query를 활용한 서버 상태 관리를 결합한 구조입니다.
+
+### 주요 디렉토리 구조
+
+```
+GovisBackOfficeRenewal/
+├── component/              # 컴포넌트 디렉토리
+│   ├── atom/              # 기본 UI 컴포넌트 (버튼, 입력 필드 등)
+│   ├── molecule/          # 복합 컴포넌트 (폼 그룹, 카드 등)
+│   ├── template/          # 페이지 템플릿 (레이아웃, 섹션 등)
+│   └── layout/            # 레이아웃 컴포넌트 (헤더, 사이드바 등)
+├── pages/                  # 페이지 라우팅 (Next.js 라우팅 구조)
+│   ├── aistt-*/           # AISTT 관련 페이지
+│   ├── product*/          # 제품 관련 페이지
+│   ├── menu/              # 메뉴 관련 페이지
+│   └── api/               # API 라우트 (서버리스 함수)
+├── public/                 # 정적 파일 (이미지, 아이콘 등)
+├── src/
+│   ├── api/               # API 호출 함수들
+│   ├── hook/              # 커스텀 React 훅 (폼, 인증 등)
+│   ├── interface/         # TypeScript 인터페이스 (타입 정의)
+│   └── mobx/              # MobX 스토어 (전역 상태 관리)
+├── stories/                # Storybook 스토리 (UI 컴포넌트 문서화)
+├── styles/                 # 전역 스타일 (테마, 색상 등)
+└── util/                   # 유틸리티 함수 (헬퍼, 유효성 검증 등)
+```
+
+## 코드 스타일 가이드
+
+이 프로젝트는 다음 코딩 규칙을 따릅니다:
+
+- **ESLint**: Airbnb 스타일 가이드 기반 규칙
+- **Prettier**: 일관된 코드 포맷팅
+- **TypeScript**: 엄격한 타입 체킹
+- **컴포넌트 네이밍**: PascalCase
+- **함수 네이밍**: camelCase
+- **상수**: UPPER_SNAKE_CASE
+- **파일 구조**: 기능별 구분
+
+## 기여 방법
+
+1. 이 저장소를 포크합니다.
+2. 새로운 기능 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`).
+3. 변경 사항을 커밋합니다 (`git commit -m 'Add some amazing feature'`).
+4. 브랜치에 푸시합니다 (`git push origin feature/amazing-feature`).
+5. Pull Request를 생성합니다.
