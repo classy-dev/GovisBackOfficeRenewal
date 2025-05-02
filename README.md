@@ -154,7 +154,6 @@ yarn dev
 
 ### 백엔드 연동
 - **API 통신**: Axios
-- **인증 관리**: JWT, Cookies
 - **데이터 캐싱**: React Query
 
 ### 개발 도구
