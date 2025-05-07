@@ -1,4 +1,6 @@
 import {
+  IMenuMasterReq,
+  IMenuMasterRes,
   IMenuSearchModalReq,
   IMenuSearchModalRes,
   IProductSearchModalReq,
@@ -6,7 +8,7 @@ import {
   IStoreModalReq,
   IStoreModalRes,
 } from '@InterfaceFarm/search-modal';
-import { CommonRequest } from '.';
+import { CommonRequest, CommonV3Request } from '.';
 
 export const fetchProductSearchModal = async (
   params?: IProductSearchModalReq
@@ -40,6 +42,18 @@ export const fetchMenuSearchModal = async (params?: IMenuSearchModalReq) => {
         ...params,
         per_num: 9999,
       },
+    }
+  );
+
+  return response.data.data;
+};
+
+// 메뉴마스터
+export const fetchMenuMasterList = async (params?: IMenuMasterReq) => {
+  const response = await CommonV3Request.get<IResponse<IMenuMasterRes>>(
+    '/menu/master',
+    {
+      params,
     }
   );
 

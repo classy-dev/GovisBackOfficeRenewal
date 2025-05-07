@@ -14,9 +14,15 @@ type ButtonVariant =
   | 'selectItem_on'
   | 'transparent';
 
-type ButtonSize = 'md' | 'lg';
+type ButtonSize = 'sm' | 'md' | 'lg';
 
 const buttonSizes = {
+  sm: css`
+    min-width: 5.7rem;
+    height: 4.4rem;
+    padding: 0 1.6rem;
+    font-size: 1.4rem;
+  `,
   md: css`
     min-width: 10.5rem;
     height: 4.4rem;

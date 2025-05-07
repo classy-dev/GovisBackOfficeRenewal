@@ -18,7 +18,7 @@ export interface AxiosUtilResponse<T> {
 const getBaseUrl = () => {
   let reVal;
   if (process.env.DEVMODE === 'development') {
-    reVal = 'https://dev.api.gopizza.kr';
+    reVal = 'https://api.gopizza.kr';
   } else {
     reVal = 'https://api.gopizza.kr';
   }
@@ -39,7 +39,7 @@ const getBaseUrl = () => {
     (hostSplit && hostSplit[0].indexOf('localhost') >= 0) ||
     (hostSplit && hostSplit[0] === 'local')
   ) {
-    reVal = 'https://dev.api.gopizza.kr';
+    reVal = 'https://api.gopizza.kr';
   }
   return reVal;
 };
@@ -87,10 +87,23 @@ export const BoV2Request = axios.create({
   baseURL: `${getBaseUrl()}/bo/v2`,
 });
 
+export const BoV3Request = axios.create({
+  baseURL: `${getBaseUrl()}/bo/v3`,
+});
+
 // Common Request 생성
 export const CommonRequest = axios.create({
   baseURL: `${getBaseUrl()}/com/v2/`,
   // timeout: 3000,
+});
+
+export const CommonV3Request = axios.create({
+  baseURL: `${getBaseUrl()}/com/v3/`,
+  // timeout: 3000,
+});
+
+export const GcV1Request = axios.create({
+  baseURL: `${getBaseUrl()}/gc/v1`,
 });
 
 export const FqsToolsRequest = axios.create({
@@ -183,6 +196,9 @@ const registerInterceptors = (instance: AxiosInstance) => {
 registerInterceptors(ApiRequest);
 registerInterceptors(BoRequest);
 registerInterceptors(BoV2Request);
+registerInterceptors(BoV3Request);
 registerInterceptors(CommonRequest);
+registerInterceptors(CommonV3Request);
 registerInterceptors(FqsApiRequest);
 registerInterceptors(FqsToolsRequest);
+registerInterceptors(GcV1Request);

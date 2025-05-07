@@ -13,48 +13,48 @@ type MenuType = {
 };
 
 export const TotalMenu: MenuType[] = [
-  {
-    depth1: '홈',
-    group: 'Home',
-    path: '/dashboard',
-    perm_info_idx: 0,
-  },
-  {
-    depth1: '매출 분석',
-    group: 'HeadOffice',
-    depth2: [
-      {
-        name: '매출 종합현황',
-        path: '/sales/month-static',
-        perm_code: 'sales_stores_report',
-        perm_info_idx: 11,
-      },
-      // {
-      //   name: '매장별 통계',
-      //   path: '/sales/store',
-      //   perm_code: 'sales_stores',
-      //   perm_info_idx: 12,
-      // },
-      {
-        name: '시간대별 통계',
-        path: '/sales/time',
-        perm_code: 'sales_time',
-        perm_info_idx: 13,
-      },
-      {
-        name: '일별 매출',
-        path: '/sales/daily',
-        perm_code: 'sales_day',
-        perm_info_idx: 14,
-      },
-      {
-        name: '월별 매출',
-        path: '/sales/month',
-        perm_code: 'sales_month',
-        perm_info_idx: 15,
-      },
-    ],
-  },
+  // {
+  //   depth1: '홈',
+  //   group: 'Home',
+  //   path: '/dashboard',
+  //   perm_info_idx: 0,
+  // },
+  // {
+  //   depth1: '매출 분석',
+  //   group: 'HeadOffice',
+  //   depth2: [
+  //     {
+  //       name: '매출 종합현황',
+  //       path: '/sales/month-static',
+  //       perm_code: 'sales_stores_report',
+  //       perm_info_idx: 11,
+  //     },
+  //     // {
+  //     //   name: '매장별 통계',
+  //     //   path: '/sales/store',
+  //     //   perm_code: 'sales_stores',
+  //     //   perm_info_idx: 12,
+  //     // },
+  //     {
+  //       name: '시간대별 통계',
+  //       path: '/sales/time',
+  //       perm_code: 'sales_time',
+  //       perm_info_idx: 13,
+  //     },
+  //     {
+  //       name: '일별 매출',
+  //       path: '/sales/daily',
+  //       perm_code: 'sales_day',
+  //       perm_info_idx: 14,
+  //     },
+  //     {
+  //       name: '월별 매출',
+  //       path: '/sales/month',
+  //       perm_code: 'sales_month',
+  //       perm_info_idx: 15,
+  //     },
+  //   ],
+  // },
   // {
   //   depth1: '제품 실적',
   //   group: 'HeadOffice',
@@ -96,7 +96,7 @@ export const TotalMenu: MenuType[] = [
   {
     depth1: '메뉴 분석 및 통계',
     group: 'HeadOffice',
-    path: '/menu-analyze',
+    path: '/menu-analyze-beta',
     perm_code: 'product_sales_analytics',
     perm_info_idx: 100,
   },

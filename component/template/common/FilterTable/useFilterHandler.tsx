@@ -2,15 +2,19 @@ import { useMemo, useState } from 'react';
 import { checkedItemType } from '@ComponentFarm/modal/SearchPopup/SearchPopup';
 
 function useSelectItems(
-  search_target: string,
-  initial: checkedItemType[] = []
+  label: string,
+  initial: checkedItemType[] = [],
+  search_target_field?: string
 ) {
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [selectItems, setSelectItems] = useState<checkedItemType[]>(initial);
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<{
     [key: string]: string | null;
-  }>({ search_target });
+  }>({
+    search_target: search_target_field || label,
+    search_keyword: null,
+  });
 
   const initialValues = useMemo(
     () => selectItems.map(item => item.idx),

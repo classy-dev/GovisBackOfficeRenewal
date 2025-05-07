@@ -26,6 +26,10 @@ export const SubTitleBoxWrap = styled.div<{ hideUnderline?: boolean }>`
     font-weight: 400;
     color: var(--color-neutral50);
   }
+  .descBottomTxt {
+    margin-top: 1.15rem;
+    color: var(--color-neutral50);
+  }
 
   .descBottom {
     display: flex;
@@ -79,6 +83,7 @@ interface ISubTitleBoxProps {
   moreLink?: string;
   hideUnderline?: boolean;
   descBottom?: { label: string; value: string }[];
+  descBottomTxt?: string;
 }
 
 const SubTitleBox: FC<ISubTitleBoxProps> = ({
@@ -86,12 +91,14 @@ const SubTitleBox: FC<ISubTitleBoxProps> = ({
   desc,
   moreLink,
   hideUnderline,
+  descBottomTxt,
   descBottom,
 }) => {
   return (
     <SubTitleBoxWrap hideUnderline={hideUnderline} className="SubTitleBoxWrap">
       <div>
         {title && <h2>{title}</h2>}
+        {descBottomTxt && <p className="descBottomTxt">{descBottomTxt}</p>}
         {descBottom && (
           <dl className="descBottom">
             {descBottom.map((el, idx) => (

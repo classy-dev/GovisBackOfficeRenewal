@@ -104,3 +104,30 @@ export interface ISearcPopupProps {
     }>
   >;
 }
+
+// 메뉴마스터
+export interface IMenuMasterReq {
+  menu_classification?: string;
+  menu_category_idx?: number;
+  search_target?: string;
+  search_keyword?: string;
+  display_hidden_data?: string;
+}
+
+interface IMenuMasterResItem {
+  menu_master_idx: number;
+  menu_code: string;
+  menu_classification: string;
+  menu_category_idx: number;
+  menu_category_name: string;
+  menu_image: string | null;
+  menu_name: string;
+  menu_description: string | null;
+  is_hide: number;
+}
+
+export interface IMenuMasterRes {
+  request_info: IMenuMasterReq;
+  result_count: number;
+  result_list: IMenuMasterResItem[];
+}

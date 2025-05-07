@@ -53,6 +53,10 @@
     "camelcase": "off",
     "no-param-reassign": "warn",
     "react/no-array-index-key": "warn",
+    "no-plusplus" : "warn",
+    "no-shadow" : "warn",
+    "no-use-before-define" : "warn",
+    "default-param-last": "warn",
     "react/function-component-definition": [
       2,
       {

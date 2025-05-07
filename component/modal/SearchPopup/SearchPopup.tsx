@@ -1,11 +1,4 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
-import { debounce } from 'lodash';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { css } from '@emotion/react';
 import CheckBoxGroup from '@ComponentFarm/modules/CheckBoxGroup/CheckBoxGroup';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
@@ -14,9 +7,8 @@ import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import CheckBox from '@ComponentFarm/atom/Checkbox/CheckBox';
 import Radio from '@ComponentFarm/atom/Radio/Radio';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';
-import { Table, TableWrap } from '@ComponentFarm/common';
+import { TableWrap } from '@ComponentFarm/common';
 import SearchKeyword from '@ComponentFarm/template/common/FilterTable/SearchKeyword';
-import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { SelectConfig } from '@UtilFarm/convertEnvironment';
 import { SearchBox, SearchResult } from '../searchPopup_style';
 
@@ -62,6 +54,8 @@ interface SearchPopupProps<T extends ICommonResultData> {
     search_target: string;
     search_keyword: string;
   };
+  searchTargetOptions?: { value: string; label: string }[];
+  customFilter?: React.ReactNode;
 }
 
 const SearchPopup = <T extends ICommonResultData>({
@@ -87,10 +81,24 @@ const SearchPopup = <T extends ICommonResultData>({
     search_target: '',
     search_keyword: '',
   },
+  searchTargetOptions,
+  customFilter,
 }: SearchPopupProps<T>) => {
   const [keyword, setKeyword] = useState(defaultKeyword);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
-  const [tbodyScrollChk, setTbodyScrollChk] = useState(true);
+
+  const resetSearchState = () => {
+    // 검색 관련 상태 초기화
+    setKeyword({
+      search_target: searchTargetOptions?.[0]?.value || '',
+      search_keyword: '',
+    });
+    setFilters(prev => ({
+      ...prev,
+      search_target: searchTargetOptions?.[0]?.value || null,
+      search_keyword: null,
+    }));
+  };
 
   const onFormSubmit = () => {
     const selectedProducts = resultData
@@ -112,11 +120,7 @@ const SearchPopup = <T extends ICommonResultData>({
     );
 
     setSelectItems(combineItems);
-    setFilters({ search_target: filters.search_target });
-    setKeyword({
-      search_target: '',
-      search_keyword: '',
-    });
+    resetSearchState();
     setIsOpen(false);
   };
 
@@ -129,12 +133,15 @@ const SearchPopup = <T extends ICommonResultData>({
   }, [isOpen]);
 
   const handlerClose = () => {
-    setFilters({ search_target: filters.search_target });
-    setKeyword({
-      search_target: '',
-      search_keyword: '',
-    });
+    resetSearchState();
     setIsOpen(false);
+  };
+
+  // value를 string으로 변환하는 헬퍼 함수
+  const getStringValue = (value: IOption | string | null): string | null => {
+    if (typeof value === 'string') return value;
+    if (!value) return null;
+    return String(value.value);
   };
 
   // filter
@@ -142,11 +149,26 @@ const SearchPopup = <T extends ICommonResultData>({
     field: string,
     value: IOption | string | null
   ) => {
+    const stringValue = getStringValue(value);
+
+    if (field === 'search_target') {
+      // 검색 대상이 변경되면 검색어도 초기화
+      setKeyword({
+        search_target: stringValue || '',
+        search_keyword: '',
+      });
+      setFilters(prev => ({
+        ...prev,
+        search_target: stringValue,
+        search_keyword: null,
+      }));
+      return;
+    }
+
+    // 나머지 필드들 업데이트
     setFilters(prev => ({
       ...prev,
-      search_keyword: keyword.search_keyword,
-      [field]:
-        typeof value === 'string' ? value : value ? String(value.value) : null,
+      [field]: stringValue,
     }));
   };
 
@@ -168,109 +190,70 @@ const SearchPopup = <T extends ICommonResultData>({
     setReorderedArray([...selectedItems.reverse(), ...remainingItems]);
   }, [selectItems, resultData]);
 
-  const tbodyRef = useRef<HTMLTableSectionElement>(null); // <tbody> 요소를 위한 ref 생성
-
-  useEffect(() => {
-    const checkScroll = () => {
-      const tbody = tbodyRef.current;
-      if (tbody) {
-        // 스크롤 여부 확인
-        const hasScroll = tbody.scrollHeight > tbody.clientHeight;
-        if (hasScroll) {
-          // 스크롤이 있으면 'scroll' 클래스 추가
-          setTbodyScrollChk(true);
-        } else {
-          // 스크롤이 없으면 'scroll' 클래스 제거
-          setTbodyScrollChk(false);
-        }
-      }
-    };
-
-    const debouncedCheckScroll = debounce(checkScroll, 100); // 100ms 동안 debounce 적용
-
-    // 컴포넌트 마운트 시 및 창 크기 변경 시 검사 실행
-    debouncedCheckScroll();
-    window.addEventListener('resize', debouncedCheckScroll);
-
-    return () => {
-      window.removeEventListener('resize', debouncedCheckScroll);
-      debouncedCheckScroll.cancel(); // 컴포넌트 언마운트 시 debounce 대기 중인 호출 취소
-    };
-  }, [resultData]); // resultData 변경 시 재검사
-
   const renderTable = () => {
     return (
-      <Table className="basic">
-        <colgroup>
-          {tableCofig.col.map((el, i) => (
-            <col
-              key={i}
-              width={getTableWidthPercentage(
-                el,
-                tbodyScrollChk && tableCofig.col.length === i + 1
-                  ? width - 67
-                  : width
-              )}
-            />
-          ))}
-        </colgroup>
-        <thead>
-          <tr>
-            <th colSpan={tableCofig.col.length}>검색 결과</th>
-          </tr>
-          <tr>
-            <th>
+      <div className="table-list">
+        <ul>
+          <li className="list-header">
+            <div style={{ width: `${tableCofig.col[0]}px` }}>
               {type !== 'radio' && (
                 <CheckBox value="allChkHandler" label="All" />
               )}
-            </th>
+            </div>
             {tableCofig.th.map((el, i) => (
-              <React.Fragment key={i}>
-                <th>{el}</th>
-              </React.Fragment>
+              <div key={i} style={{ width: `${tableCofig.col[i + 1]}px` }}>
+                {el}
+              </div>
             ))}
-          </tr>
-        </thead>
-        <tbody ref={tbodyRef}>
-          {reorderedArray?.map((el: T) => (
-            <tr key={el.idx}>
-              <td>
-                {type === 'radio' ? (
-                  <Radio value={el.idx} label={el.label} />
-                ) : (
-                  <CheckBox value={String(el.idx)} label={el.label} />
+          </li>
+        </ul>
+        <div className="list-content">
+          <ul>
+            {reorderedArray?.map((el: T) => (
+              <li key={el.idx} className="list-item">
+                <div style={{ width: `${tableCofig.col[0]}px` }}>
+                  {type === 'radio' ? (
+                    <Radio value={el.idx} label={el.label} />
+                  ) : (
+                    <CheckBox value={String(el.idx)} label={el.label} />
+                  )}
+                </div>
+                {Object.entries(el).map(
+                  ([key, value], index) =>
+                    key !== 'idx' && (
+                      <div
+                        key={index}
+                        style={{ width: `${tableCofig.col[index]}px` }}
+                      >
+                        {key === 'status' ? (
+                          <Badge
+                            color={
+                              value === badge[0]
+                                ? 'green'
+                                : value === badge[badge.length - 1]
+                                ? 'red'
+                                : 'yellow'
+                            }
+                            size="sm"
+                            dot
+                          >
+                            {String(value)}
+                          </Badge>
+                        ) : key === 'category' ? (
+                          <label htmlFor={String(el.idx)}>
+                            {String(value)}
+                          </label>
+                        ) : (
+                          String(value)
+                        )}
+                      </div>
+                    )
                 )}
-              </td>
-              {Object.entries(el).map(
-                ([key, value], index) =>
-                  key !== 'idx' && (
-                    <td key={index}>
-                      {key === 'status' ? (
-                        <Badge
-                          color={
-                            value === badge[0]
-                              ? 'green'
-                              : value === badge[badge.length - 1]
-                              ? 'red'
-                              : 'yellow'
-                          }
-                          size="sm"
-                          dot
-                        >
-                          {String(value)}
-                        </Badge>
-                      ) : key === 'category' ? (
-                        <label htmlFor={String(el.idx)}>{String(value)}</label>
-                      ) : (
-                        String(value)
-                      )}
-                    </td>
-                  )
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     );
   };
 
@@ -327,41 +310,80 @@ const SearchPopup = <T extends ICommonResultData>({
           <legend>{title} 검색</legend>
           <table>
             <tbody>
-              <tr>
-                <th scope="row">필터</th>
-                <td>
-                  <div className="wrap_input">
-                    {selectConfig?.map(el => (
-                      <Select
-                        key={el.field}
-                        options={el.options}
-                        selectedOption={filters[el.field]}
-                        setSelectedOption={option =>
-                          handleFilterChange(el.field, option)
-                        }
-                        prefixLabel={el.label}
-                        placeholder="전체"
-                      />
-                    ))}
-                  </div>
-                </td>
-              </tr>
+              {selectConfig && (
+                <tr>
+                  <th scope="row">필터</th>
+                  <td>
+                    {customFilter || (
+                      <div className="wrap_input">
+                        {selectConfig?.map(el => (
+                          <Select
+                            key={el.field}
+                            options={el.options}
+                            selectedOption={filters[el.field]}
+                            setSelectedOption={option =>
+                              handleFilterChange(el.field, option)
+                            }
+                            prefixLabel={el.label}
+                            placeholder="전체"
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              )}
               <tr>
                 <th scope="row">{keyWordSearchTitle}</th>
                 <td>
-                  <SearchKeyword
-                    keyword={keyword}
-                    setKeyword={setKeyword}
-                    handler={keywordConfig => {
-                      handleFilterChange(
-                        'search_keyword',
-                        keywordConfig.search_keyword
-                      );
-                    }}
-                    placeholder={
-                      searchBoxPlaceHolder ?? '검색어를 입력해 주세요'
-                    }
-                  />
+                  <div
+                    css={css`
+                      display: flex;
+                      gap: 0.8rem;
+                      align-items: center;
+
+                      .search-target-select {
+                        min-width: 120px;
+
+                        .select_library_control {
+                          height: 4rem;
+                          min-height: 4rem;
+                        }
+                      }
+                    `}
+                  >
+                    {searchTargetOptions && (
+                      <div
+                        className="search-target-select"
+                        css={css`
+                          height: 4rem;
+                          min-height: 4rem;
+                        `}
+                      >
+                        <Select
+                          options={searchTargetOptions}
+                          selectedOption={filters.search_target}
+                          setSelectedOption={option =>
+                            handleFilterChange('search_target', option)
+                          }
+                          placeholder="검색 대상"
+                        />
+                      </div>
+                    )}
+                    <SearchKeyword
+                      keyword={keyword}
+                      setKeyword={setKeyword}
+                      handler={keywordConfig => {
+                        handleFilterChange(
+                          'search_keyword',
+                          keywordConfig.search_keyword
+                        );
+                      }}
+                      placeholder={
+                        searchBoxPlaceHolder ?? '검색어를 입력해 주세요'
+                      }
+                    />
+                  </div>
                 </td>
               </tr>
             </tbody>

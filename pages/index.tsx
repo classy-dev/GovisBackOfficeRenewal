@@ -205,7 +205,7 @@ const Login = () => {
           ...authData,
         });
 
-        router.push('/dashboard');
+        router.push('/sales-analyze');
       });
     } catch (error: unknown) {
       const { code, message } = error as ServerError;
@@ -220,7 +220,7 @@ const Login = () => {
   }
 
   if (isLoginState !== -1 && isLoginState !== 0) {
-    router.push('/dashboard');
+    router.push('/sales-analyze');
   }
 
   const confirmModal = () => {
