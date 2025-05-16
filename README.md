@@ -177,6 +177,8 @@ yarn dev
 - **데이터 페칭**: React Query
 - **폼 관리**: React Hook Form
 - **차트 및 시각화**: Recharts, Chart.js
+- **브라우저 내 데이터베이스**: WebAssembly (SQL.js), IndexedDB
+- **인공지능/LLM**: Anthropic Claude API
 
 ### 백엔드 연동
 
