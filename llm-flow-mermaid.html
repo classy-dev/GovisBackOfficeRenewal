@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOPIZZA LLM 메뉴 분석 시스템 - 흐름도</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@9.4.3/dist/mermaid.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+            max-width: 800px;
+        }
+        .title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2a2a2a;
+            margin-bottom: 16px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.4;
+        }
+        .diagram-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+        .description {
+            margin-top: 30px;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 1000px;
+            text-align: center;
+        }
+        
+        /* Mermaid 커스텀 스타일 */
+        .frontend rect, .frontend path, .frontend circle, .frontend polygon {
+            fill: #e1f0ff !important;
+            stroke: #4e85f6 !important;
+        }
+        .backend rect, .backend path, .backend circle, .backend polygon {
+            fill: #e1ffe8 !important;
+            stroke: #50b46f !important;
+        }
+        .database rect, .database path, .database circle, .database polygon {
+            fill: #fff2e1 !important;
+            stroke: #f68d4e !important;
+        }
+        .ai rect, .ai path, .ai circle, .ai polygon {
+            fill: #f5e1ff !important;
+            stroke: #b44ef6 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">GOPIZZA 메뉴 분석 AI 자연어 대화 시스템</h1>
+        <p class="subtitle">
+            날짜 기반 메뉴 판매 데이터를 자연어로 질문하고 분석하는 AI 기반 시스템 아키텍처
+        </p>
+    </div>
+    
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    %% 노드 정의
+    A["메뉴 분석 페이지\n날짜 선택 후 GOCHAT 버튼 클릭"]:::frontend
+    B["LLM 페이지\n자연어 인터페이스 제공"]:::frontend
+    C["Django 백엔드\n선택된 날짜 기반 판매 데이터 제공"]:::backend
+    D["SQL.js(WebAssembly) / IndexedDB\n판매 데이터 로컬 저장소(FE)"]:::database
+    E["사용자 질문 입력\n자연어로 데이터 분석 요청"]:::frontend
+    F["Anthropic API\n자연어 → SQL 변환"]:::ai
+    G["SQL 쿼리 실행(WebAssembly)\nIndexedDB에서 데이터 추출(FE)"]:::database
+    H["자연어 응답 생성\nSQL 결과 → 차트/표 데이터화"]:::ai
+    I["결과 표시\n차트, 테이블 시각화"]:::frontend
+    
+    %% 데이터 준비 단계
+    A --> B
+    A --> C
+    C --> D
+    B --> D
+    
+    %% 질의응답 처리 단계
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    
+    %% 설명 노드
+    J["1. 날짜 선택 후 데이터 로드"]:::note
+    K["2. 자연어 질문 → SQL 변환"]:::note
+    L["3. SQL 쿼리 실행 → 결과 도출"]:::note
+    M["4. 결과 시각화 및 자연어 응답"]:::note
+    
+    %% 스타일 정의
+    classDef frontend fill:#e1f0ff,stroke:#4e85f6,stroke-width:2px,color:#333
+    classDef backend fill:#e1ffe8,stroke:#50b46f,stroke-width:2px,color:#333
+    classDef database fill:#fff2e1,stroke:#f68d4e,stroke-width:2px,color:#333
+    classDef ai fill:#f5e1ff,stroke:#b44ef6,stroke-width:2px,color:#333
+    classDef note fill:#ffffde,stroke:#999,stroke-width:1px,stroke-dasharray: 5 5
+    
+    %% 서브그래프
+    subgraph 데이터_준비 ["데이터 준비"]
+        A
+        B
+        C
+        D
+    end
+    
+    subgraph 질의응답_처리 ["질의응답 처리"]
+        E
+        F
+        G
+        H
+        I
+    end
+    
+    subgraph 흐름_설명 ["흐름 설명"]
+        J
+        K
+        L
+        M
+    end
+        </div>
+                
+           
+        </div>
+    </div>
+    
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #e1f0ff; border: 1px solid #4e85f6;"></div>
+            <span>프론트엔드 (Next.js)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #e1ffe8; border: 1px solid #50b46f;"></div>
+            <span>백엔드 (Django)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #fff2e1; border: 1px solid #f68d4e;"></div>
+            <span>데이터베이스 (WebAssembly SQL.js)</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background-color: #f5e1ff; border: 1px solid #b44ef6;"></div>
+            <span>AI 모델 (Anthropic)</span>
+        </div>
+    </div>
+    
+    <div class="description" style="background-color: #fcfcfc; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+        <h2 style="margin-bottom: 1.5rem; font-size: 1.8rem; color: #222; border-bottom: 2px solid #fbd02c; padding-bottom: 10px; font-weight: 700;">현대적 인공지능 기반 메뉴 분석 시스템</h2>
+        
+        <p style="margin-bottom: 1.8rem; line-height: 1.7; font-size: 1.1rem; color: #444;">
+            위 다이어그램은 <strong style="color: #e03131;">GOPIZZA</strong> 내부 백오피스 시스템(GOVIS)의 자연어 메뉴 분석 기능 흐름을 보여주는 아키텍처입니다. 자연어 처리(NLP)와 브라우저 기반 비동기 데이터베이스 처리를 결합하여 고급 분석을 가능하게 하는 혁신적 시스템입니다.
+        </p>
+        
+        <div style="background-color: #f0f7ff; border-left: 5px solid #4e85f6; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+            <h3 style="margin: 0.5rem 0; font-size: 1.3rem; color: #4e85f6;">문제 정의: 기존 SQL 분석의 한계</h3>
+            <p style="margin-bottom: 0.5rem; line-height: 1.6;">
+                기존 메뉴 분석 시스템은 사용자가 SQL을 직접 작성해야 했고, 분석 작업은 백엔드 서버에 마운트된 DB에 전적으로 의존했습니다. 이로 인해 비전문가인 임직원들은 데이터 분석에 어려움을 겪았으며, 서버 부하와 대기 시간이 발생했습니다.
+            </p>
+        </div>
+        
+        <div style="background-color: #f9f0ff; border-left: 5px solid #b44ef6; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+            <h3 style="margin: 0.5rem 0; font-size: 1.3rem; color: #b44ef6;">해결책: AI + 브라우저 기반 데이터 처리</h3>
+            <p style="margin-bottom: 0.5rem; line-height: 1.6;">
+                시스템은 크게 두 단계로 나뉙니다:
+            </p>
+        </div>
+        
+        <div style="background-color: #f1fbf3; border-radius: 8px; padding: 15px; margin-bottom: 20px; border: 1px solid #e0f5e4;">
+            <h4 style="margin: 0.5rem 0; font-size: 1.2rem; color: #2b8a3e; font-weight: 600;">데이터 준비 단계</h4>
+            <ol style="margin-bottom: 0; padding-left: 25px; line-height: 1.8;">
+                <li style="margin-bottom: 10px;"><strong style="color: #2b8a3e;">사용자 인터페이스</strong>: 메뉴 분석 페이지에서 날짜 선택 후 <span style="background-color: #fff2cc; padding: 2px 5px; border-radius: 3px; font-weight: 500;">GOCHAT</span> 버튼을 클릭합니다.</li>
+                <li style="margin-bottom: 10px;"><strong style="color: #2b8a3e;">백엔드 처리</strong>: Django 백엔드는 선택된 날짜 기반으로 메뉴 판매 데이터를 조회합니다.</li>
+                <li style="margin-bottom: 0;"><strong style="color: #2b8a3e;">로컬 저장</strong>: 프론트엔드에서 WebAssembly 기반 SQL.js(웹에서 실행되는 SQLite)로 데이터를 로드하고 브라우저의 IndexedDB에 저장합니다.</li>
+            </ol>
+        </div>
+        
+        <div style="background-color: #f9f0ff; border-radius: 8px; padding: 15px; margin-bottom: 20px; border: 1px solid #f3d8ff;">
+            <h4 style="margin: 0.5rem 0; font-size: 1.2rem; color: #9c36b5; font-weight: 600;">질의응답 처리 단계</h4>
+            <ol style="margin-bottom: 0; padding-left: 25px; line-height: 1.8;">
+                <li style="margin-bottom: 10px;"><strong style="color: #9c36b5;">자연어 질문</strong>: 사용자가 일상 언어로 질문을 입력합니다. <span style="font-style: italic; color: #666;">(예: "어떤 매장이 피자를 가장 많이 팔았나요?")</span></li>
+                <li style="margin-bottom: 10px;"><strong style="color: #9c36b5;">AI 변환</strong>: Anthropic API(Claude)가 자연어를 분석하고 SQL 쿼리로 변환합니다.</li>
+                <li style="margin-bottom: 10px;"><strong style="color: #9c36b5;">브라우저 내 처리</strong>: WebAssembly로 컴파일된 SQL.js가 프론트엔드에서 직접 쿼리를 실행하여 결과를 얻습니다.</li>
+                <li style="margin-bottom: 10px;"><strong style="color: #9c36b5;">데이터 해석</strong>: 얻은 결과를 다시 AI가 분석하여 자연어 응답과 차트/테이블로 변환합니다.</li>
+                <li style="margin-bottom: 0;"><strong style="color: #9c36b5;">상호 작용</strong>: 사용자에게 시각화된 데이터와 자연어 응답을 함께 제시합니다.</li>
+            </ol>
+        </div>
+
+        <div style="background-color: #e9f9ef; border-left: 5px solid #50b46f; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+            <h3 style="margin: 0.5rem 0 1rem; font-size: 1.3rem; color: #2b8a3e;">핵심 기술: WebAssembly SQL.js</h3>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">
+                이 시스템의 기술적 핵심은 WebAssembly로 컴파일된 SQL.js입니다. 필수적 선택이었던 이 기술은 다음과 같은 관점에서 사용자 경험을 혁신적으로 개선합니다:
+            </p>
+
+            <div style="background-color: #f8fff9; border-radius: 5px; padding: 12px; margin-bottom: 15px; border: 1px dashed #aedcb7;">
+                <h4 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: #2b8a3e;">성능적 차이</h4>
+                <p style="margin-bottom: 0.5rem; line-height: 1.7;">
+                    일반 JavaScript만으로 SQL 엔진을 구현했다면 복잡한 쿼리 실행 시 성능이 현저히 떨어졌을 것입니다. 웹어셈블리는 네이티브에 가까운 속도를 제공하여 수천 레코드 분석 시에도 JavaScript 구현 대비 최대 20배 빠른 응답이 가능합니다.
+                </p>
+            </div>
+
+            <div style="background-color: #f8fff9; border-radius: 5px; padding: 12px; margin-bottom: 15px; border: 1px dashed #aedcb7;">
+                <h4 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: #2b8a3e;">전체 SQLite 기능 사용</h4>
+                <p style="margin-bottom: 0.5rem; line-height: 1.7;">
+                    웹어셈블리 덕분에 실제 SQLite의 모든 기능(복잡한 집계, 윈도우 함수, 조인 등)을 브라우저에서 사용할 수 있습니다. 일반 JavaScript로 구현된 SQL 엔진은 기능이 제한적이라는 한계가 있습니다.
+                </p>
+            </div>
+
+            <div style="background-color: #f8fff9; border-radius: 5px; padding: 12px; margin-bottom: 15px; border: 1px dashed #aedcb7;">
+                <h4 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: #2b8a3e;">시스템 설계 관점</h4>
+                <p style="margin-bottom: 0.5rem; line-height: 1.7;">
+                    이는 오로지 웹어셈블리 기반이기에 가능한 아키텍처 선택이었습니다. 큰 데이터셋에서도 비전문가인 사용자가 복잡한 SQL 분석을 실시간으로 수행할 수 있어 AI 응답 품질이 크게 향상됩니다.
+                </p>
+            </div>
+
+            <div style="background-color: #f8fff9; border-radius: 5px; padding: 12px; margin-bottom: 0; border: 1px dashed #aedcb7;">
+                <h4 style="margin: 0 0 0.5rem; font-size: 1.1rem; color: #2b8a3e;">IndexedDB와의 관계</h4>
+                <p style="margin-bottom: 0; line-height: 1.7;">
+                    IndexedDB는 SQL.js 데이터베이스 파일 자체를 저장하기 위한 용도로 사용됩니다. SQL.js는 실제 SQL 실행 엔진으로, 두 기술은 서로 다른 역할을 담당하며 상보적으로 동작하여 브라우저에서 완전한 SQLite 경험을 제공합니다.
+                </p>
+            </div>
+        </div>
+
+        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-top: 25px; border: 1px solid #e9ecef; text-align: center;">
+            <p style="margin: 0; line-height: 1.7; font-size: 1.1rem; color: #495057; font-weight: 500;">
+                이 시스템은 고객 데이터를 효율적으로 분석할 수 있는 혁신적인 방법을 제시합니다.<br>
+                SQL 지식이 없는 비전문가도 고급 분석을 수행할 수 있으며, 전체 프로세스는 대부분 클라이언트 측에서 진행됩니다.
+            </p>
+        </div>    
+        <h3 style="margin: 1rem 0; font-size: 1.2rem; color: #2a2a2a;">마치며</h3>
+        <p style="line-height: 1.6;">
+            이 시스템은 고객 데이터를 보다 효율적으로 분석할 수 있는 혁신적인 방법을 제시합니다. 이는 SQL 지식이 없는 비전문가도 고급 분석을 수행할 수 있으며, 전체 프로세스는 대부분 클라이언트 측에서 이뤄져 서버 부하를 최소화합니다.
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            mermaid.initialize({
+                startOnLoad: true,
+                securityLevel: 'loose',
+                theme: 'base'
+            });
+        });
+    </script>
+</body>
+</html>
